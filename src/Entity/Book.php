@@ -6,24 +6,32 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BookRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups'=>['user:read']],
+    denormalizationContext: ['groups'=>['user:write']]
+)]
 class Book
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['user:read', 'user:write'])]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['user:read', 'user:write'])]
     private ?Category $category = null;
 
     public function getId(): ?int
