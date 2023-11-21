@@ -7,6 +7,8 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
+use App\Component\User\FullNameDTO;
+use App\Controller\FullNameAction;
 use App\Controller\UserCreateAction;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +18,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     operations: [
-        new Post(controller: UserCreateAction::class),
+        new Post(uriTemplate: '/users/create', controller: UserCreateAction::class, name: 'createUser'),
+        new Post(
+            uriTemplate: '/users/full-name', 
+            controller: FullNameAction::class,
+            input: FullNameDTO::class, 
+            name: 'fullName'),
         new GetCollection(),
         new Delete(),
         new Get(),
