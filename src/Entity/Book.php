@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\BookRepository;
 use Doctrine\DBAL\Types\Types;
@@ -13,6 +16,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups'=>['user:read']],
     denormalizationContext: ['groups'=>['user:write']]
 )]
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'name' =>   'partial',
+    'category' => 'exact'
+])]
+#[ApiFilter(OrderFilter::class, properties: [
+    'id',
+    'name'
+])]
 class Book
 {
     #[ORM\Id]

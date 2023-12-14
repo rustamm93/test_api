@@ -15,6 +15,20 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # api/books ochiq
+        books:
+            pattern: ^/api/books
+            methods:
+                - get
+            security: false
+        
+        # api/categories ochiq
+        categories:
+            pattern: ^/api/categories
+            methods:
+                - get
+            security: false
+
         # api/users/create endpoint'iga POST orqali murojaat qilinganda - token soralmasin
         user_create:
             pattern: ^/api/users/create
